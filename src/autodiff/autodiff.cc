@@ -1,4 +1,5 @@
 #include "autodiff.h"
+#include "node.h"
 
 namespace autodiff {
 
