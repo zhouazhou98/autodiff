@@ -38,6 +38,27 @@ private:
 AutoDiff::ptr operator+(AutoDiff::ptr x1, AutoDiff::ptr x2);
 
 
+// --------------------- SubNode ---------------------
+
+class SubNode : public Node {
+public:
+    SubNode(AutoDiff::ptr x1, AutoDiff::ptr x2) : m_x1(x1), m_x2(x2) {}
+
+    void backward(float_t gradient) override {
+        m_x1->m_gradient += gradient;
+        m_x2->m_gradient -= gradient;
+        if (m_x1->m_node) m_x1->m_node->backward(gradient);
+        if (m_x2->m_node) m_x2->m_node->backward(-gradient);
+    }
+
+private:
+    AutoDiff::ptr m_x1;
+    AutoDiff::ptr m_x2;
+};
+
+AutoDiff::ptr operator-(AutoDiff::ptr x1, AutoDiff::ptr x2);
+
+
 // --------------------- MulNode ---------------------
 
 class MulNode : public Node {
