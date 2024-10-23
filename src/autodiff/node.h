@@ -5,6 +5,7 @@
 #include "autodiff.h"
 #include <memory>
 #include <iostream>
+#include <math.h>
 
 namespace autodiff {
 
@@ -59,6 +60,25 @@ private:
 
 AutoDiff::ptr operator*(AutoDiff::ptr x1, AutoDiff::ptr x2);
 
+
+// --------------------- MulNode ---------------------
+
+class SinNode : public Node {
+public:
+    SinNode(AutoDiff::ptr x1) : m_x1(x1) {}
+
+    void backward(float_t gradient) override {
+        std::cout << "SinNode::backward(" << gradient << ")" << std::endl;
+        m_x1->m_gradient += gradient * std::cos(m_x1->m_value);
+        std::cout << "\tgradient: " << m_x1->m_gradient << std::endl;
+        if (m_x1->m_node) m_x1->m_node->backward(gradient * std::cos(m_x1->m_value));
+    }
+
+private:
+    AutoDiff::ptr m_x1;
+};
+
+AutoDiff::ptr sin(AutoDiff::ptr x1);
 
 }   // ! autodiff namespace
 

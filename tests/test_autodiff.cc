@@ -27,7 +27,22 @@ int main() {
     std::cout << "a gradient = " << a->m_gradient << std::endl;
     std::cout << "b gradient = " << b->m_gradient << std::endl;
     std::cout << "c gradient = " << c->m_gradient << std::endl;
-    std::cout << "result gradient = " << result->m_gradient << std::endl;
+    std::cout << "result value = " << result->m_value << std::endl;
+
+
+    std::cout << "-----------------------------------" << std::endl;
+
+
+    
+    auto x = std::make_shared<AutoDiff>(M_PI);
+    auto re = sin(x);
+    std::cout << "x value = " << x->m_value << std::endl;
+    std::cout << "x gradient = " << x->m_gradient << std::endl;
+    re->backward();
+    std::cout << "x value = " << x->m_value << std::endl;
+    std::cout << "x gradient = " << x->m_gradient << std::endl;
+    std::cout << "result value of sin(" << x->m_value << ") = " << re->m_value << std::endl;
+
 
     return 0;
 }
