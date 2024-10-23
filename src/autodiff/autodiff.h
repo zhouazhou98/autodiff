@@ -10,7 +10,7 @@ class Node;
 
 class AutoDiff {
 public:
-    std::shared_ptr<AutoDiff> ptr;
+    typedef std::shared_ptr<AutoDiff> ptr;
 
     AutoDiff(float_t value) : m_value(value), m_gradient(0), m_node(nullptr) {}
     AutoDiff(float_t value, std::shared_ptr<Node> node) : m_value(value), m_gradient(0), m_node(node) {}
@@ -19,7 +19,7 @@ public:
 public:
     void backward();
 
-private:
+public:
     float_t m_value;
     float_t m_gradient;
     std::shared_ptr<Node> m_node;
